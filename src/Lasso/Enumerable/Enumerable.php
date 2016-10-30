@@ -48,4 +48,14 @@ trait Enumerable
         }
         return $num_elems;
     }
+
+    public function find($callback, $default = null)
+    {
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === true) {
+                return $elem;
+            }
+        }
+        return $default;
+    }
 }
