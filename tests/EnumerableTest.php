@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Lasso\Enumerable\Enumerable;
+use Lasso\Enumerable\EnumerableArray;
 
 class TopTen
 {
@@ -49,5 +50,11 @@ class EnumerableTest extends TestCase
     public function testFind()
     {
         $this->assertEquals(9, self::$topTen->find(self::$dividableByThree));
+    }
+
+    public function testFindAll()
+    {
+        $expected = new EnumerableArray([10, 9, 8, 7, 6]);
+        $this->assertEquals($expected, self::$topTen->findAll(self::$largerThanFive));
     }
 }

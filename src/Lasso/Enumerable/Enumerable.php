@@ -24,14 +24,14 @@ trait Enumerable
 {
     protected abstract function __each();
 
-    public function each($callback)
+    public function each(callable $callback)
     {
         foreach ($this->__each() as $elem) {
             $callback($elem);
         }
     }
 
-    public function count($callback = null)
+    public function count(callable $callback = null)
     {
         $num_elems = 0;
         if ($callback) {
@@ -49,7 +49,7 @@ trait Enumerable
         return $num_elems;
     }
 
-    public function find($callback, $default = null)
+    public function find(callable $callback, $default = null)
     {
         foreach ($this->__each() as $elem) {
             if ($callback($elem) === true) {
@@ -57,5 +57,16 @@ trait Enumerable
             }
         }
         return $default;
+    }
+
+    public function findAll(callable $callback)
+    {
+        $elems = new EnumerableArray();
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === true) {
+                $elems->append($elem);
+            }
+        }
+        return $elems;
     }
 }
