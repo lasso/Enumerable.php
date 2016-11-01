@@ -22,7 +22,7 @@ namespace Lasso\Enumerable;
 
 class EnumerableArray implements ArrayAccess
 {
-    use Enumerable
+    use Enumerable;
 
     protected $elems;
 
@@ -68,7 +68,7 @@ class EnumerableArray implements ArrayAccess
         $this->elems[$offset] = $value;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetUnset($offset, $value)
     {
         if (!$this->offsetExists($offset)) {
             throw new \OutOfRangeException();

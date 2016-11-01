@@ -24,6 +24,26 @@ trait Enumerable
 {
     protected abstract function __each();
 
+    public function all(callable $callback)
+    {
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function any(callable $callback)
+    {
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function each(callable $callback)
     {
         foreach ($this->__each() as $elem) {
