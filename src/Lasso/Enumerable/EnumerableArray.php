@@ -20,7 +20,7 @@
 
 namespace Lasso\Enumerable;
 
-class EnumerableArray implements ArrayAccess
+class EnumerableArray implements \ArrayAccess
 {
     use Enumerable;
 
