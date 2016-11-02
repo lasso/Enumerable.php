@@ -68,7 +68,7 @@ class EnumerableArray implements \ArrayAccess
         $this->elems[$offset] = $value;
     }
 
-    public function offsetUnset($offset, $value)
+    public function offsetUnset($offset)
     {
         if (!$this->offsetExists($offset)) {
             throw new \OutOfRangeException();
