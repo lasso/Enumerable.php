@@ -29,6 +29,30 @@ class EnumerableTest extends TestCase
         self::$dividableByThree = function($elem) { return $elem % 3 === 0; };
     }
 
+    public function testAll()
+    {
+        $this->assertEquals(
+            true,
+            self::$topTen->all(function ($elem) { return $elem <= 10; })
+        );
+        $this->assertEquals(
+            false,
+            self::$topTen->all(function ($elem) { return $elem <= 5; })
+        );
+    }
+
+    public function testAny()
+    {
+        $this->assertEquals(
+            true,
+            self::$topTen->any(function ($elem) { return $elem === 5; })
+        );
+        $this->assertEquals(
+            false,
+            self::$topTen->any(function ($elem) { return $elem === 15; })
+        );
+    }
+
     public function testCountWithCallback() {
         $this->assertEquals(5, self::$topTen->count(self::$largerThanFive));
     }
@@ -50,6 +74,24 @@ class EnumerableTest extends TestCase
     public function testFind()
     {
         $this->assertEquals(9, self::$topTen->find(self::$dividableByThree));
+        $this->assertEquals(
+            null,
+            self::$topTen->find(
+                function($elem) { return $elem === 15; }
+            )
+        );
+    }
+
+    public function testFindWithDefault()
+    {
+        $this->assertEquals(9, self::$topTen->find(self::$dividableByThree, 'not_found'));
+        $this->assertEquals(
+            'not_found',
+            self::$topTen->find(
+                function($elem) { return $elem === 15; },
+                'not_found'
+            )
+        );
     }
 
     public function testFindAll()
