@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lasso/Enumerable.php.svg?branch=master)](https://travis-ci.org/lasso/Enumerable.php)
+
 # lasso/enumerable
 
 IMPORTANT NOTICE: This package is INCOMPLETE. I'm giving a talk in a few weeks (2016-11-17) and this package will be showcased at that time. Hold on, we're getting there!

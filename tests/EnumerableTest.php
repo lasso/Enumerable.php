@@ -20,37 +20,27 @@ class EnumerableTest extends TestCase
 {
     private static $topTen;
     private static $largerThanFive;
+    private static $largerThanTen;
     private static $dividableByThree;
 
     public static function setupBeforeClass()
     {
         self::$topTen = new TopTen();
-        self::$largerThanFive = function($elem) { return $elem > 5; };
-        self::$dividableByThree = function($elem) { return $elem % 3 === 0; };
+        self::$largerThanFive = function ($elem) { return $elem > 5; };
+        self::$largerThanTen = function ($elem) { return $elem > 10; };
+        self::$dividableByThree = function ($elem) { return $elem % 3 === 0; };
     }
 
     public function testAll()
     {
-        $this->assertEquals(
-            true,
-            self::$topTen->all(function ($elem) { return $elem <= 10; })
-        );
-        $this->assertEquals(
-            false,
-            self::$topTen->all(function ($elem) { return $elem <= 5; })
-        );
+        $this->assertTrue(self::$topTen->all(function ($elem) { return $elem <= 10; }));
+        $this->assertFalse(self::$topTen->all(function ($elem) { return $elem <= 5; }));
     }
 
     public function testAny()
     {
-        $this->assertEquals(
-            true,
-            self::$topTen->any(function ($elem) { return $elem === 5; })
-        );
-        $this->assertEquals(
-            false,
-            self::$topTen->any(function ($elem) { return $elem === 15; })
-        );
+        $this->assertTrue(self::$topTen->any(function ($elem) { return $elem === 5; }));
+        $this->assertFalse(self::$topTen->any(function ($elem) { return $elem === 15; }));
     }
 
     public function testCountWithCallback() {
@@ -64,7 +54,7 @@ class EnumerableTest extends TestCase
 
     public function testEach()
     {
-        $printer = function($elem) { printf("%s\n", $elem); };
+        $printer = function ($elem) { printf("%s\n", $elem); };
         ob_start();
         self::$topTen->each($printer);
         $output = ob_get_clean();
@@ -77,7 +67,7 @@ class EnumerableTest extends TestCase
         $this->assertEquals(
             null,
             self::$topTen->find(
-                function($elem) { return $elem === 15; }
+                function ($elem) { return $elem === 15; }
             )
         );
     }
@@ -88,7 +78,7 @@ class EnumerableTest extends TestCase
         $this->assertEquals(
             'not_found',
             self::$topTen->find(
-                function($elem) { return $elem === 15; },
+                function ($elem) { return $elem === 15; },
                 'not_found'
             )
         );
@@ -98,5 +88,24 @@ class EnumerableTest extends TestCase
     {
         $expected = new EnumerableArray([10, 9, 8, 7, 6]);
         $this->assertEquals($expected, self::$topTen->findAll(self::$largerThanFive));
+        $this->assertEquals(
+            new EnumerableArray(),
+            self::$topTen->findAll(self::$largerThanTen)
+        );
+    }
+
+    public function testMember()
+    {
+        $this->assertTrue(self::$topTen->member(5));
+        $this->assertFalse(self::$topTen->member(15));
+    }
+
+    public function testChaining()
+    {
+        $expected = new EnumerableArray([9, 6]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->findAll(self::$largerThanFive)->findAll(self::$dividableByThree)
+        );
     }
 }

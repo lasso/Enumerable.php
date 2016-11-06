@@ -89,4 +89,14 @@ trait Enumerable
         }
         return $elems;
     }
+
+    public function member($needle)
+    {
+        foreach ($this->__each() as $elem) {
+            if ($needle === $elem) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

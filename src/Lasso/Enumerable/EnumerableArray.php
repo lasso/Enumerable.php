@@ -46,7 +46,7 @@ class EnumerableArray implements \ArrayAccess
         $filter_options = [
             'options' => [
                 'min_range' => 0,
-                'max_range' => count($this->elems)
+                'max_range' => count($this->elems) - 1
             ]
         ];
         return filter_var($offset, FILTER_VALIDATE_INT, $filter_options) !== false;
