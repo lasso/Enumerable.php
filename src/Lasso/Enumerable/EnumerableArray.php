@@ -43,13 +43,13 @@ class EnumerableArray implements \ArrayAccess
 
     public function offsetExists($offset)
     {
-        $filter_options = [
+        $filterOptions = [
             'options' => [
                 'min_range' => 0,
                 'max_range' => count($this->elems) - 1
             ]
         ];
-        return filter_var($offset, FILTER_VALIDATE_INT, $filter_options) !== false;
+        return filter_var($offset, FILTER_VALIDATE_INT, $filterOptions) !== false;
     }
 
     public function offsetGet($offset)

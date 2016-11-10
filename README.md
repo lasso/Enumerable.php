@@ -1,4 +1,8 @@
-[![Build Status](https://travis-ci.org/lasso/Enumerable.php.svg?branch=master)](https://travis-ci.org/lasso/Enumerable.php)&nbsp;&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/lasso/Enumerable.php/branch/master/graph/badge.svg)](https://codecov.io/gh/lasso/Enumerable.php)
+[![Build Status](https://travis-ci.org/lasso/Enumerable.php.svg?branch=master)](https://travis-ci.org/lasso/Enumerable.php)
+&nbsp;&nbsp;&nbsp;&nbsp;
+[![Code Climate](https://codeclimate.com/github/lasso/Enumerable.php/badges/gpa.svg)](https://codeclimate.com/github/lasso/Enumerable.php)
+&nbsp;&nbsp;&nbsp;&nbsp;
+[![codecov](https://codecov.io/gh/lasso/Enumerable.php/branch/master/graph/badge.svg)](https://codecov.io/gh/lasso/Enumerable.php)
 
 # lasso/enumerable
 

@@ -53,20 +53,20 @@ trait Enumerable
 
     public function count(callable $callback = null)
     {
-        $num_elems = 0;
+        $numElems = 0;
         if ($callback) {
             foreach ($this->__each() as $elem) {
                 if ($callback($elem)) {
-                    $num_elems++;
+                    $numElems++;
                 }
             }
         }
         else {
             foreach ($this->__each() as $elem) {
-                $num_elems++;
+                $numElems++;
             }
         }
-        return $num_elems;
+        return $numElems;
     }
 
     public function find(callable $callback, $default = null)
@@ -90,6 +90,15 @@ trait Enumerable
         return $elems;
     }
 
+    public function map(callable $callback)
+    {
+        $elems = new EnumerableArray();
+        foreach ($this->__each() as $elem) {
+            $elems->append($callback($elem));
+        }
+        return $elems;
+    }
+
     public function member($needle)
     {
         foreach ($this->__each() as $elem) {
@@ -98,5 +107,25 @@ trait Enumerable
             }
         }
         return false;
+    }
+
+    public function reduce(callable $callback, $initialValue = null)
+    {
+        $memo = $initialValue;
+        foreach ($this->__each() as $elem) {
+            $memo = $callback($memo, $elem);
+        }
+        return $memo;
+    }
+
+    public function reject(callable $callback)
+    {
+        $elems = new EnumerableArray();
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === false) {
+                $elems->append($elem);
+            }
+        }
+        return $elems;
     }
 }

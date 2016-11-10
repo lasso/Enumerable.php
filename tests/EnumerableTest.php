@@ -22,6 +22,7 @@ class EnumerableTest extends TestCase
     private static $largerThanFive;
     private static $largerThanTen;
     private static $dividableByThree;
+    private static $double;
 
     public static function setupBeforeClass()
     {
@@ -29,6 +30,7 @@ class EnumerableTest extends TestCase
         self::$largerThanFive = function ($elem) { return $elem > 5; };
         self::$largerThanTen = function ($elem) { return $elem > 10; };
         self::$dividableByThree = function ($elem) { return $elem % 3 === 0; };
+        self::$double = function ($elem) { return $elem * 2; };
     }
 
     public function testAll()
@@ -94,10 +96,52 @@ class EnumerableTest extends TestCase
         );
     }
 
+    public function testMap()
+    {
+        $this->assertEquals(
+            new EnumerableArray([20, 18, 16, 14, 12, 10, 8, 6, 4, 2]),
+            self::$topTen->map(self::$double)
+        );
+    }
+
     public function testMember()
     {
         $this->assertTrue(self::$topTen->member(5));
         $this->assertFalse(self::$topTen->member(15));
+    }
+
+    public function testReduceInteger()
+    {
+        $this->assertEquals(
+            55,
+            self::$topTen->reduce(
+                function ($memo, $elem) { return $memo += $elem; }, 0
+            )
+        );
+    }
+
+    public function testReduceArray()
+    {
+        $this->assertEquals(
+            [
+                'J' => 10, 'I' => 9, 'H' => 8, 'G' => 7, 'F' => 6,
+                'E' => 5, 'D' => 4, 'C' => 3, 'B' => 2, 'A' => 1
+            ],
+            self::$topTen->reduce(
+                function ($memo, $elem) {
+                    $memo[chr($elem + 64)] = $elem;
+                    return $memo;
+                }, []
+            )
+        );
+    }
+
+    public function testReject()
+    {
+        $this->assertEquals(
+            new EnumerableArray([10, 8, 7, 5, 4, 2, 1]),
+            self::$topTen->reject(self::$dividableByThree)
+        );
     }
 
     public function testChaining()
