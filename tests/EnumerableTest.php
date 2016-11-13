@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Lasso\Enumerable\Enumerable;
-use Lasso\Enumerable\EnumerableArray;
+use Lasso3000\Enumerable\Enumerable;
+use Lasso3000\Enumerable\EnumerableArray;
 
 class TopTen
 {

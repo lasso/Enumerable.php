@@ -1,5 +1,5 @@
 {
-    "name": "lasso/enumerable",
+    "name": "lasso3000/enumerable",
     "description": "Inspired by ruby's Enumerable module, this library allows you to create enumerables in PHP.",
     "type": "library",
     "require-dev": {
@@ -19,7 +19,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Lasso\\Enumerable\\": "src/Lasso/Enumerable"
+            "Lasso3000\\Enumerable\\": "src/Lasso3000/Enumerable"
         }
     }
 }

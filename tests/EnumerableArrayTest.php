@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Lasso\Enumerable\EnumerableArray;
+use Lasso3000\Enumerable\EnumerableArray;
 
 class EnumerableArrayTest extends TestCase
 {
