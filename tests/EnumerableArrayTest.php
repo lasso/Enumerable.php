@@ -9,7 +9,7 @@ class EnumerableArrayTest extends TestCase
     {
         $enum = new EnumerableArray(['foo', 'bar', 'baz']);
 
-        $this->assertEquals(['foo', 'bar', 'baz'], $enum->getArrayCopy());
+        $this->assertEquals(['foo', 'bar', 'baz'], $enum->toArray());
     }
 
     public function testGetExistingOffset()

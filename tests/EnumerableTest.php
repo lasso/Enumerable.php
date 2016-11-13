@@ -110,6 +110,18 @@ class EnumerableTest extends TestCase
         $this->assertFalse(self::$topTen->member(15));
     }
 
+    public function testPartition()
+    {
+        $expected =
+            new EnumerableArray(
+                [
+                    new EnumerableArray([9, 6, 3]),
+                    new EnumerableArray([10, 8, 7, 5, 4, 2, 1])
+                ]
+            );
+        $this->assertEquals($expected, self::$topTen->partition(self::$dividableByThree));
+    }
+
     public function testReduceInteger()
     {
         $this->assertEquals(
