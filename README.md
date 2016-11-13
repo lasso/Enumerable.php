@@ -18,3 +18,6 @@ Inspired by ruby's Enumerable module, this library allows you to create enumerab
 
 ## Run tests with coverage (XDebug must be installed)
 `vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html=coverage --whitelist=src tests`
+
+## Generate docs (will be placed in the phpdoc directory)
+`vendor/bin/phpdoc -d src/ -t phpdoc`

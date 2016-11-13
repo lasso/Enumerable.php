@@ -22,8 +22,17 @@
 
 namespace Lasso\Enumerable;
 
+/**
+ * The Enumerable trait will allow any object to work as a collection. The using class must
+ * implement the __each method, all other methods in this trait only depend on that method. 
+ */
 trait Enumerable
 {
+    /**
+     * Returns one element at a time from the enumerable. When implementing this method,
+     * you should only return values using the yield keyword. Do not use the return keyword
+     * to return values from this method!
+     */
     protected abstract function __each();
 
     /**
@@ -60,6 +69,12 @@ trait Enumerable
         return false;
     }
 
+    /**
+     * Applies a callback on each element in the enumerable without returning any value.
+     *
+     * @param callable $callback
+     * @return null
+     */
     public function each(callable $callback)
     {
         foreach ($this->__each() as $elem) {
@@ -98,6 +113,7 @@ trait Enumerable
      * If no matching element can be found, the provided default is returned instead.
      *
      * @param callable $callback
+     * @param mixed $default
      * @return mixed
      */
     public function find(callable $callback, $default = null)
@@ -143,6 +159,13 @@ trait Enumerable
         return $elems;
     }
 
+    /**
+     * Returns true if the provided argument is a member of the enumerable.
+     * Otherwise returns false.
+     *
+     * @param mixed $needle
+     * @return boolean
+     */
     public function member($needle)
     {
         foreach ($this->__each() as $elem) {
@@ -176,6 +199,13 @@ trait Enumerable
         return new EnumerableArray([$matching, $not_matching]);
     }
 
+    /**
+     * Reduces an enumerable into a single value by applying a callback to each element.
+     *
+     * @param callable $callback
+     * @param mixed $initialValue
+     * @return EnumerableArray
+     */
     public function reduce(callable $callback, $initialValue = null)
     {
         $memo = $initialValue;
@@ -185,6 +215,13 @@ trait Enumerable
         return $memo;
     }
 
+    /**
+     * Returns an EnumerableArray containing all elements in the enumerable that returns
+     * false from the callback.
+     *
+     * @param callable $callback
+     * @return EnumerableArray
+     */
     public function reject(callable $callback)
     {
         $elems = new EnumerableArray();
