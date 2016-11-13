@@ -5,7 +5,14 @@ use Lasso\Enumerable\EnumerableArray;
 
 class EnumerableArrayTest extends TestCase
 {
-    public function testArrayCopy()
+    public function testConstruction()
+    {
+        $enum1 = new EnumerableArray(['one' => 'foo', 'two' => 'bar', 'three' => 'baz']);
+        $enum2 = new EnumerableArray(['foo', 'bar', 'baz']);
+        $this->assertEquals($enum1, $enum2);
+        $this->assertEquals($enum1->toArray(), $enum2->toArray());
+    }
+    public function testArrayToArray()
     {
         $enum = new EnumerableArray(['foo', 'bar', 'baz']);
 
@@ -39,6 +46,16 @@ class EnumerableArrayTest extends TestCase
        $enum = new EnumerableArray(['foo', 'bar', 'baz']);
 
        $enum[3];
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testGetNonNumericOffset()
+    {
+        $enum = new EnumerableArray(['foo', 'bar', 'baz']);
+
+       $enum['one'];
     }
 
     public function testSetExistingOffset()
@@ -77,6 +94,16 @@ class EnumerableArrayTest extends TestCase
     /**
      * @expectedException OutOfRangeException
      */
+    public function testSetNonNumericOffset()
+    {
+       $enum = new EnumerableArray(['foo', 'bar', 'baz']);
+
+       $enum['one'] = 'three';
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
     public function testUnsetExistingOffset()
     {
        $enum = new EnumerableArray(['foo', 'bar', 'baz']);
@@ -106,5 +133,15 @@ class EnumerableArrayTest extends TestCase
        $enum = new EnumerableArray(['foo', 'bar', 'baz']);
 
        unset($enum[3]);
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testUnsetNonNumericOffset()
+    {
+       $enum = new EnumerableArray(['foo', 'bar', 'baz']);
+
+       unset($enum['one']);
     }
 }

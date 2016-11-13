@@ -156,6 +156,15 @@ class EnumerableTest extends TestCase
         );
     }
 
+    public function testReverseEach()
+    {
+        $printer = function ($elem) { printf("%s\n", $elem); };
+        ob_start();
+        self::$topTen->reverseEach($printer);
+        $output = ob_get_clean();
+        $this->assertEquals("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n", $output);
+    }
+
     public function testChaining()
     {
         $expected = new EnumerableArray([9, 6]);

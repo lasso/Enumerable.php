@@ -232,4 +232,22 @@ trait Enumerable
         }
         return $elems;
     }
+
+    /**
+     * Applies a callback on each element in the enumerable in reverse order without
+     * returning any value.
+     *
+     * @param callable $callback
+     * @return null
+     */
+    public function reverseEach(callable $callback)
+    {
+        $elems = [];
+        foreach ($this->__each() as $elem) {
+            array_unshift($elems, $elem);
+        }
+        foreach ($elems as $elem) {
+            $callback($elem);
+        }
+    }
 }

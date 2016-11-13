@@ -22,27 +22,64 @@
 
 namespace Lasso\Enumerable;
 
+/**
+ * An array-like object that implements the Enumerable trait. The EnumerableArray
+ * does only support numeric keys.
+ */
 class EnumerableArray implements \ArrayAccess
 {
     use Enumerable;
 
+    /**
+     * Internal storage for elements.
+     *
+     * @var array $elems
+     */
     protected $elems;
 
+    /**
+     * Creates a new EnumerableArray. If an array was provided as argument,
+     * its elements will be added to the elements of the current object,
+     * but all original keys will be dropped.
+     *
+     * @param array $elems
+     */
     public function __construct(array $elems = [])
     {
-        $this->elems = $elems;
+        $this->elems = [];
+
+        foreach ($elems as $elem) {
+            $this->append($elem);
+        }
     }
 
+    /**
+     * Adds an element to the end of the EnumerableArray.
+     *
+     * @param mixed $elem
+     * @return null
+     */
     public function append($elem)
     {
         $this->elems[] = $elem;
     }
 
+    /**
+     * Returns the elements of this object as an array.
+     *
+     * @return array
+     */
     public function toArray()
     {
         return $this->elems;
     }
 
+    /**
+     * Returns whether the specified offset exists in this enumerable.
+     *
+     * @param int $offset
+     * @return boolean
+     */
     public function offsetExists($offset)
     {
         $filterOptions = [
@@ -54,6 +91,13 @@ class EnumerableArray implements \ArrayAccess
         return filter_var($offset, FILTER_VALIDATE_INT, $filterOptions) !== false;
     }
 
+    /**
+     * Returns the element at the provided index.
+     *
+     * @param int $offset
+     * @return mixed
+     * @throws \OutOfRangeException
+     */
     public function offsetGet($offset)
     {
         if (!$this->offsetExists($offset)) {
@@ -62,6 +106,14 @@ class EnumerableArray implements \ArrayAccess
         return $this->elems[$offset];
     }
 
+    /**
+     * Sets the element at the provided index to the provided value.
+     *
+     * @param int $offset
+     * @param mixed $value
+     * @return null
+     * @throws \OutOfRangeException
+     */
     public function offsetSet($offset, $value)
     {
         if (!$this->offsetExists($offset)) {
@@ -70,6 +122,13 @@ class EnumerableArray implements \ArrayAccess
         $this->elems[$offset] = $value;
     }
 
+    /**
+     * Unsets the element at the provided index.
+     *
+     * @param int $offset
+     * @return null
+     * @throws \OutOfRangeException
+     */
     public function offsetUnset($offset)
     {
         if (!$this->offsetExists($offset)) {
@@ -78,6 +137,9 @@ class EnumerableArray implements \ArrayAccess
         unset($this->elems[$offset]);
     }
 
+    /**
+     * Returns one element at a time from the enumerable.
+     */
     protected function __each()
     {
         foreach ($this->elems as $elem) {
