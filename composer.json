@@ -15,6 +15,13 @@
             "email": "lasso@lassoweb.se"
         }
     ],
+    "homepage": "https://github.com/lasso/Enumerable.php",
+    "support": {
+        "email": "lasso@lassoweb.se",
+        "issues": "https://github.com/lasso/Enumerable.php/issues",
+        "source": "https://github.com/lasso/Enumerable.php",
+        "docs": "https://docs.lassoweb.se/Enumerable.php"
+    },
     "minimum-stability": "stable",
     "require": {},
     "autoload": {
