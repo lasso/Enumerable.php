@@ -70,6 +70,31 @@ trait Enumerable
     }
 
     /**
+     * Drops elements until the provided callback returns true. The remaining elements
+     * are returned as an EnumerableArray.
+     *
+     * @param callable $callback
+     * @return EnumerableArray
+     */
+    public function dropWhile(callable $callback)
+    {
+        $elems = new EnumerableArray();
+        $stillDropping = true;
+        foreach ($this->__each() as $elem) {
+            if ($stillDropping) {
+                if ($callback($elem) === true) {
+                    continue;
+                }
+                else {
+                    $stillDropping = false;
+                }
+            }
+            $elems->append($elem);
+        }
+        return $elems;
+    }
+
+    /**
      * Applies a callback on each element in the enumerable without returning any value.
      *
      * @param callable $callback
@@ -141,6 +166,32 @@ trait Enumerable
             }
         }
         return $elems;
+    }
+
+    /**
+     * Returns the index where $needle can be found. If $needle cannot be found, null is returned.
+     * $needle can be either a callable or a value.
+     *
+     * @param mixed $needle
+     * @return int|null
+     */
+    public function findIndex($needle)
+    {
+        if (is_callable($needle)) {
+            foreach ($this->__each() as $idx => $elem) {
+                if ($needle($elem) === true) {
+                    return $idx;
+                }
+            }
+        }
+        else {
+            foreach ($this->__each() as $idx => $elem) {
+                if ($needle === $elem) {
+                    return $idx;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -249,5 +300,24 @@ trait Enumerable
         foreach ($elems as $elem) {
             $callback($elem);
         }
+    }
+
+    /**
+     * Takes elements from the enumerable until the provided callback returns false.
+     * The result is returned as an EnumerableArray.
+     *
+     * @param callable $callback
+     * @return EnumerableArray
+     */
+    public function takeWhile(callable $callback)
+    {
+        $elems = new EnumerableArray();
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === false) {
+                return $elems;
+            }
+            $elems->append($elem);
+        }
+        return $elems;
     }
 }

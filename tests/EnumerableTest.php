@@ -54,6 +54,24 @@ class EnumerableTest extends TestCase
         $this->assertEquals(10, self::$topTen->count());
     }
 
+    public function testDropWhile()
+    {
+        $expected = new EnumerableArray([5, 4, 3, 2, 1]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->dropWhile(self::$largerThanFive)
+        );
+    }
+
+    public function testDropWhileNoElements()
+    {
+        $expected = new EnumerableArray();
+        $this->assertEquals(
+            $expected,
+            self::$topTen->dropWhile('is_int')
+        );
+    }
+
     public function testEach()
     {
         $printer = function ($elem) { printf("%s\n", $elem); };
@@ -94,6 +112,28 @@ class EnumerableTest extends TestCase
             new EnumerableArray(),
             self::$topTen->findAll(self::$largerThanTen)
         );
+    }
+
+    public function testFindIndexCallable()
+    {
+        $callback = function ($elem) { return $elem === 7; };
+        $this->assertEquals(3, self::$topTen->findIndex($callback));
+    }
+
+    public function testFindIndexCallableNotFound()
+    {
+        $callback = function ($elem) { return $elem === 0; };
+        $this->assertEquals(null, self::$topTen->findIndex($callback));
+    }
+
+    public function testFindIndexValue()
+    {
+        $this->assertEquals(3, self::$topTen->findIndex(7));
+    }
+
+    public function testFindIndexValueNotFound()
+    {
+        $this->assertEquals(null, self::$topTen->findIndex(0));
     }
 
     public function testMap()
@@ -163,6 +203,24 @@ class EnumerableTest extends TestCase
         self::$topTen->reverseEach($printer);
         $output = ob_get_clean();
         $this->assertEquals("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n", $output);
+    }
+
+    public function testTakeWhile()
+    {
+        $expected = new EnumerableArray([10, 9, 8, 7, 6]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->takeWhile(self::$largerThanFive)
+        );
+    }
+
+    public function testTakeWhileAllElements()
+    {
+        $expected = new EnumerableArray([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->takeWhile('is_int')
+        );
     }
 
     public function testChaining()
