@@ -13,6 +13,9 @@ Inspired by ruby's Enumerable module, this library allows you to create enumerab
 ## How to use this library in your own project
 `composer require lasso3000/enumerable`
 
+## Code samples
+Please have a look at the [wiki](https://github.com/lasso/Enumerable.php/wiki).
+
 ## How to fork/work with this library
 
 ### Clone the repository
