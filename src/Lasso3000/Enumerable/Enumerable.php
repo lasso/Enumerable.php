@@ -303,6 +303,22 @@ trait Enumerable
     }
 
     /**
+     * Sorts the elements in the enumerable by using a callback.
+     *
+     * @param callable $callback
+     * @return EnumerableArray
+     */
+    public function sort(callable $callback)
+    {
+        $elems = [];
+        foreach ($this->__each() as $elem) {
+            $elems[] = $elem;
+        }
+        usort($elems, $callback);
+        return new EnumerableArray($elems);
+    }
+
+    /**
      * Takes elements from the enumerable until the provided callback returns false.
      * The result is returned as an EnumerableArray.
      *

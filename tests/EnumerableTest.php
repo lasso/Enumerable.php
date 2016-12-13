@@ -205,6 +205,28 @@ class EnumerableTest extends TestCase
         $this->assertEquals("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n", $output);
     }
 
+    public function testSort()
+    {
+        $unsorted = new EnumerableArray([1, 7, 3, 9, 4, 5, 2, 8, 6, 10]);
+        $sortedAscending = new EnumerableArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $sortedDescending = new EnumerableArray([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+
+        $ascendingSorter = function($a, $b) {
+            if ($a < $b) { return -1; }
+            if ($b < $a) { return 1; }
+            return 0;
+        };
+
+        $descendingSorter = function($a, $b) {
+            if ($a < $b) { return 1; }
+            if ($b < $a) { return -1; }
+            return 0;
+        };
+
+        $this->assertEquals($sortedAscending, $unsorted->sort($ascendingSorter));
+        $this->assertEquals($sortedDescending, $unsorted->sort($descendingSorter));
+    }
+
     public function testTakeWhile()
     {
         $expected = new EnumerableArray([10, 9, 8, 7, 6]);
