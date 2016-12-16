@@ -319,6 +319,28 @@ trait Enumerable
     }
 
     /**
+     * Takes a number of elemens from the enumerable.
+     *
+     * @param int $numElems
+     * @return EnumerableArray
+     */
+    public function take($numElems)
+    {
+        if (!is_int($numElems) || $numElems < 0) {
+            throw new \InvalidArgumentException("Argument must be a positive integer or 0.");
+        }
+        $elems = new EnumerableArray();
+        $numToTake = min($numElems, $this->count());
+        $numTaken = 0;
+        foreach ($this->__each() as $elem) {
+            if ($numTaken == $numToTake) break;
+            $elems->append($elem);
+            $numTaken++;
+        }
+        return $elems;
+    }
+
+    /**
      * Takes elements from the enumerable until the provided callback returns false.
      * The result is returned as an EnumerableArray.
      *

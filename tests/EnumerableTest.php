@@ -227,6 +227,41 @@ class EnumerableTest extends TestCase
         $this->assertEquals($sortedDescending, $unsorted->sort($descendingSorter));
     }
 
+    public function testTake()
+    {
+        $expected = new EnumerableArray([10, 9, 8]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->take(3)
+        );
+        $expected = new EnumerableArray([]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->take(0)
+        );
+        $expected = new EnumerableArray([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->take(15)
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testTakeNegativeParam()
+    {
+        self::$topTen->take(-3);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testTakeStringParam()
+    {
+        self::$topTen->take('foo');
+    }
+
     public function testTakeWhile()
     {
         $expected = new EnumerableArray([10, 9, 8, 7, 6]);
