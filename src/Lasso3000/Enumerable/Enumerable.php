@@ -251,6 +251,41 @@ trait Enumerable
     }
 
     /**
+     * Returns true if no element in the enumerable returns true from the callback.
+     *
+     * @param callable $callback
+     * @return boolean
+     */
+    public function none(callable $callback)
+    {
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === true) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if exactly one element in the enumerable returns true from the callback.
+     *
+     * @param callable $callback
+     * @return boolean
+     */
+    public function one(callable $callback)
+    {
+        $numMatchingElems = 0;
+        foreach ($this->__each() as $elem) {
+            if ($callback($elem) === true) {
+                if (++$numMatchingElems > 1) {
+                    return false;
+                }
+            }
+        }
+        return $numMatchingElems === 1;
+    }
+
+    /**
      * Returns an EnumerableArray with two elements, one EnumerableArray with all elements
      * in the enumerable that returns true from the callback, and one EnumerableArray with
      * all elements in the enumerable that returns false from the callback.

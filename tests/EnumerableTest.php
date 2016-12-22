@@ -73,6 +73,22 @@ class EnumerableTest extends TestCase
         );
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testDropNegativeParam()
+    {
+        self::$topTen->drop(-3);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testDropStringParam()
+    {
+        self::$topTen->drop('foo');
+    }
+
     public function testDropWhile()
     {
         $expected = new EnumerableArray([5, 4, 3, 2, 1]);
@@ -167,6 +183,21 @@ class EnumerableTest extends TestCase
     {
         $this->assertTrue(self::$topTen->member(5));
         $this->assertFalse(self::$topTen->member(15));
+    }
+
+    public function testNone()
+    {
+        $this->assertTrue(self::$topTen->none(self::$largerThanTen));
+        $this->assertFalse(self::$topTen->none(self::$largerThanFive));
+    }
+
+    public function testOne()
+    {
+        $exactlySeven = function($elem) { return $elem === 7; };
+        $exactlyFourteen = function($elem) { return $elem === 14; };
+        $this->assertTrue(self::$topTen->one($exactlySeven));
+        $this->assertFalse(self::$topTen->one($exactlyFourteen));
+        $this->assertFalse(self::$topTen->one(self::$largerThanFive));
     }
 
     public function testPartition()
