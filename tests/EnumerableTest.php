@@ -54,6 +54,25 @@ class EnumerableTest extends TestCase
         $this->assertEquals(10, self::$topTen->count());
     }
 
+    public function testDrop()
+    {
+        $expected = new EnumerableArray([7, 6, 5, 4, 3, 2, 1]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->drop(3)
+        );
+        $expected = new EnumerableArray([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->drop(0)
+        );
+        $expected = new EnumerableArray([]);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->drop(15)
+        );
+    }
+
     public function testDropWhile()
     {
         $expected = new EnumerableArray([5, 4, 3, 2, 1]);

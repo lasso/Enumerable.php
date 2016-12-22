@@ -70,6 +70,29 @@ trait Enumerable
     }
 
     /**
+     * Drops a number of elemens from the enumerable and returns the remaining
+     * elements as an EnumerableArray.
+     *
+     * @param int $numElems
+     * @return EnumerableArray
+     */
+    public function drop($numElems)
+    {
+        if (!is_int($numElems) || $numElems < 0) {
+            throw new \InvalidArgumentException("Argument must be a positive integer or 0.");
+        }
+        $elems = new EnumerableArray();
+        $numDropped = 0;
+        foreach ($this->__each() as $elem) {
+            if ($numDropped++ < $numElems) {
+                continue;
+            }
+            $elems->append($elem);
+        }
+        return $elems;
+    }
+
+    /**
      * Drops elements until the provided callback returns true. The remaining elements
      * are returned as an EnumerableArray.
      *
@@ -319,7 +342,7 @@ trait Enumerable
     }
 
     /**
-     * Takes a number of elemens from the enumerable.
+     * Takes a number of elemens from the enumerable and returns them as an EnumerableArray.
      *
      * @param int $numElems
      * @return EnumerableArray
@@ -330,12 +353,12 @@ trait Enumerable
             throw new \InvalidArgumentException("Argument must be a positive integer or 0.");
         }
         $elems = new EnumerableArray();
-        $numToTake = min($numElems, $this->count());
         $numTaken = 0;
         foreach ($this->__each() as $elem) {
-            if ($numTaken == $numToTake) break;
+            if ($numTaken++ == $numElems) {
+                break;
+            }
             $elems->append($elem);
-            $numTaken++;
         }
         return $elems;
     }
