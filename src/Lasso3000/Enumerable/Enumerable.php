@@ -292,11 +292,11 @@ trait Enumerable
     public function partition(callable $callback)
     {
         $matching = new EnumerableArray();
-        $not_matching = new EnumerableArray();
+        $notMatching = new EnumerableArray();
         foreach ($this->__each() as $elem) {
-            ($callback($elem) === true ? $matching : $not_matching)->append($elem);
+            ($callback($elem) === true ? $matching : $notMatching)->append($elem);
         }
-        return new EnumerableArray([$matching, $not_matching]);
+        return new EnumerableArray([$matching, $notMatching]);
     }
 
     /**
