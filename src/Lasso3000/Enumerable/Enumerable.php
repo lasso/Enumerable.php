@@ -294,7 +294,8 @@ trait Enumerable
         $matching = new EnumerableArray();
         $notMatching = new EnumerableArray();
         foreach ($this->__each() as $elem) {
-            ($callback($elem) === true ? $matching : $notMatching)->append($elem);
+            $receiver = ($callback($elem) === true ? $matching : $notMatching);
+            $receiver->append($elem);
         }
         return new EnumerableArray([$matching, $notMatching]);
     }
