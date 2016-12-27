@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/TopTen.php');
+
 use PHPUnit\Framework\TestCase;
 use Lasso3000\Enumerable\EnumerableArray;
 
@@ -12,6 +14,22 @@ class EnumerableArrayTest extends TestCase
         $this->assertEquals($enum1, $enum2);
         $this->assertEquals($enum1->toArray(), $enum2->toArray());
     }
+
+    public function testStaticConstruction()
+    {
+        $enum1 = EnumerableArray::fromArray(['one' => 'foo', 'two' => 'bar', 'three' => 'baz']);
+        $enum2 = EnumerableArray::fromArray(['foo', 'bar', 'baz']);
+        $this->assertEquals($enum1, $enum2);
+        $this->assertEquals($enum1->toArray(), $enum2->toArray());
+    }
+
+    public function testCreateFromEnumerable()
+    {
+        $enum1 = new EnumerableArray([10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
+        $enum2 = EnumerableArray::fromEnumerable(new TopTen());
+        $this->assertEquals($enum1, $enum2);
+    }
+
     public function testArrayToArray()
     {
         $enum = new EnumerableArray(['foo', 'bar', 'baz']);

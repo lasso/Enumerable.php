@@ -38,6 +38,33 @@ class EnumerableArray implements \ArrayAccess
     protected $elems;
 
     /**
+     * Creates a new EnumerableArray from an existing array and returns it.
+     *
+     * @param array $elems
+     * @return self
+     */
+    public static function fromArray(array $elems)
+    {
+        return new self($elems);
+    }
+
+    /**
+     * Creates a new EnumerableArray from any Enumerable and returns it.
+     *
+     * @param mixed $enum
+     * @return self
+     */
+    public static function fromEnumerable($enum)
+    {
+        return
+            $enum->map(
+                function($elem) {
+                    return $elem;
+                }
+            );
+    }
+
+    /**
      * Creates a new EnumerableArray. If an array was provided as argument,
      * its elements will be added to the elements of the current object,
      * but all original keys will be dropped.

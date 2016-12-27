@@ -1,20 +1,9 @@
 <?php
 
+require_once(__DIR__ . '/TopTen.php');
+
 use PHPUnit\Framework\TestCase;
-use Lasso3000\Enumerable\Enumerable;
 use Lasso3000\Enumerable\EnumerableArray;
-
-class TopTen
-{
-    use Enumerable;
-
-    protected function __each()
-    {
-        for ($i = 10; $i > 0; $i--) {
-            yield $i;
-        }
-    }
-}
 
 class EnumerableTest extends TestCase
 {

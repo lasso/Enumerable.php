@@ -70,6 +70,31 @@ trait Enumerable
     }
 
     /**
+     * Returns the number of elements in the enumerable. If a callback is provided,
+     * only those alements that return true from the callback are counted.
+     * Otherwise returns false.
+     *
+     * @param callable $callback
+     * @return int
+     */
+    public function count(callable $callback = null)
+    {
+        $numElems = 0;
+        if ($callback) {
+            foreach ($this->__each() as $elem) {
+                if ($callback($elem)) {
+                    $numElems++;
+                }
+            }
+            return $numElems;
+        }
+        foreach ($this->__each() as $elem) {
+            $numElems++;
+        }
+        return $numElems;
+    }
+
+    /**
      * Drops a number of elemens from the enumerable and returns the remaining
      * elements as an EnumerableArray.
      *
@@ -108,9 +133,7 @@ trait Enumerable
                 if ($callback($elem) === true) {
                     continue;
                 }
-                else {
-                    $stillDropping = false;
-                }
+                $stillDropping = false;
             }
             $elems->append($elem);
         }
@@ -128,32 +151,6 @@ trait Enumerable
         foreach ($this->__each() as $elem) {
             $callback($elem);
         }
-    }
-
-    /**
-     * Returns the number of elements in the enumerable. If a callback is provided,
-     * only those alements that return true from the callback are counted.
-     * Otherwise returns false.
-     *
-     * @param callable $callback
-     * @return int
-     */
-    public function count(callable $callback = null)
-    {
-        $numElems = 0;
-        if ($callback) {
-            foreach ($this->__each() as $elem) {
-                if ($callback($elem)) {
-                    $numElems++;
-                }
-            }
-        }
-        else {
-            foreach ($this->__each() as $elem) {
-                $numElems++;
-            }
-        }
-        return $numElems;
     }
 
     /**
@@ -206,12 +203,11 @@ trait Enumerable
                     return $idx;
                 }
             }
+            return null;
         }
-        else {
-            foreach ($this->__each() as $idx => $elem) {
-                if ($needle === $elem) {
-                    return $idx;
-                }
+        foreach ($this->__each() as $idx => $elem) {
+            if ($needle === $elem) {
+                return $idx;
             }
         }
         return null;
@@ -298,12 +294,7 @@ trait Enumerable
         $matching = new EnumerableArray();
         $not_matching = new EnumerableArray();
         foreach ($this->__each() as $elem) {
-            if ($callback($elem) === true) {
-                $matching->append($elem);
-            }
-            else {
-                $not_matching->append($elem);
-            }
+            ($callback($elem) === true ? $matching : $not_matching)->append($elem);
         }
         return new EnumerableArray([$matching, $not_matching]);
     }
