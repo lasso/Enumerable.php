@@ -2,7 +2,7 @@
 
 /**
  * lasso3000/enumerable - A implementation of ruby's Enumerable module written in PHP.
- * Copyright (C) 2016  Lars Olsson <lasso@lassoweb.se>
+ * Copyright (C) 2016-2017  Lars Olsson <lasso@lassoweb.se>
  *
  * This file is part of lasso3000/enumerable.
  *
@@ -100,6 +100,7 @@ trait Enumerable
      *
      * @param int $numElems
      * @return EnumerableArray
+     * @throws \InvalidArgumentException
      */
     public function drop($numElems)
     {
@@ -151,6 +152,34 @@ trait Enumerable
         foreach ($this->__each() as $elem) {
             $callback($elem);
         }
+    }
+
+    /**
+     * Applies callback (like map) to each slice of the enumerable and returns the results
+     * as an EnumerableArray.
+     *
+     * @param int $sliceSize
+     * @param callable $callback
+     * @return EnumerableArray
+     * @throws \InvalidArgumentException
+     */
+    public function eachSlice($sliceSize, callable $callback)
+    {
+        if (!is_int($sliceSize) || $sliceSize < 1) {
+            throw new \InvalidArgumentException("Argument must be a positive integer.");
+        }
+        $idx = 0;
+        $slices = new EnumerableArray();
+        $currentSlice = new EnumerableArray();
+        foreach ($this->__each() as $elem) {
+            $currentSlice->append($elem);
+            if (++$idx % $sliceSize === 0) {
+                $slices->append($currentSlice);
+                $currentSlice = new EnumerableArray();
+            }
+        }
+        $slices->append($currentSlice);
+        return $slices->map($callback);
     }
 
     /**
@@ -373,6 +402,7 @@ trait Enumerable
      *
      * @param int $numElems
      * @return EnumerableArray
+     * @throws \InvalidArgumentException
      */
     public function take($numElems)
     {

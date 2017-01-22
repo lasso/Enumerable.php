@@ -2,7 +2,7 @@
 
 /**
  * lasso3000/enumerable - A implementation of ruby's Enumerable module written in PHP.
- * Copyright (C) 2016  Lars Olsson <lasso@lassoweb.se>
+ * Copyright (C) 2016-2017  Lars Olsson <lasso@lassoweb.se>
  *
  * This file is part of lasso3000/enumerable.
  *
@@ -28,7 +28,9 @@ namespace Lasso3000\Enumerable;
  */
 class EnumerableArray implements \ArrayAccess
 {
-    use Enumerable;
+    use Enumerable {
+        count as enumerable_count;
+    }
 
     /**
      * Internal storage for elements.
@@ -36,6 +38,22 @@ class EnumerableArray implements \ArrayAccess
      * @var array $elems
      */
     protected $elems;
+
+    /**
+     * Returns the number of elements in the enumerable. If a callback is provided,
+     * only those alements that return true from the callback are counted.
+     * Otherwise returns false.
+     *
+     * @param callable $callback
+     * @return int
+     */
+    public function count(callable $callback = null)
+    {
+        if (null === $callback) {
+            return count($this->elems);
+        }
+        return $this->enumerable_count($callback);
+    }
 
     /**
      * Creates a new EnumerableArray from an existing array and returns it.

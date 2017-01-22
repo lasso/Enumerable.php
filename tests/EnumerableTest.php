@@ -105,6 +105,44 @@ class EnumerableTest extends TestCase
         $this->assertEquals("10\n9\n8\n7\n6\n5\n4\n3\n2\n1\n", $output);
     }
 
+    public function testEachSlice()
+    {
+        $expected = new EnumerableArray(['10-9-8', '7-6-5', '4-3-2', '1']);
+        $this->assertEquals(
+            $expected,
+            self::$topTen->eachSlice(
+                3,
+                function(EnumerableArray $slice) {
+                    return implode('-', $slice->toArray());
+                }
+            )
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEachSliceStringParam()
+    {
+        $callback =
+            function(EnumerableArray $slice) {
+                return $slice;
+            };
+        self::$topTen->eachSlice('foo', $callback);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEachSliceNegativeParam()
+    {
+        $callback =
+            function(EnumerableArray $slice) {
+                return $slice;
+            };
+        self::$topTen->eachSlice(-1, $callback);
+    }
+
     public function testFind()
     {
         $this->assertEquals(9, self::$topTen->find(self::$dividableByThree));

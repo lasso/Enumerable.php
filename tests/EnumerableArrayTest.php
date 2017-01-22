@@ -37,6 +37,20 @@ class EnumerableArrayTest extends TestCase
         $this->assertEquals(['foo', 'bar', 'baz'], $enum->toArray());
     }
 
+    public function testCountWithCallback() {
+        $enum = new EnumerableArray(['foo', 'bar', 'baz']);
+        $callback = function($elem) {
+            return $elem;
+        };
+        $this->assertEquals(3, $enum->count($callback));
+    }
+
+    public function testCountWithoutCallback()
+    {
+        $enum = new EnumerableArray(['foo', 'bar', 'baz']);
+        $this->assertEquals(3, $enum->count());
+    }
+
     public function testGetExistingOffset()
     {
        $enum = new EnumerableArray(['foo', 'bar', 'baz']);

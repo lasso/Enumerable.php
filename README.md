@@ -8,7 +8,8 @@
 
 # lasso3000/enumerable
 
-Inspired by ruby's Enumerable module, this library allows you to create enumerables in PHP.
+Inspired by ruby's Enumerable module, this library allows you to create enumerables in PHP. It is similar in function to
+[Knapsack](https://dusankasan.github.io/Knapsack/), but tries to stay a bit closer to ruby in naming and spirit.
 
 ## How to use this library in your own project
 `composer require lasso3000/enumerable`
@@ -31,4 +32,4 @@ Please have a look at the [wiki](https://github.com/lasso/Enumerable.php/wiki).
 `vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html=coverage --whitelist=src tests`
 
 ### Generate docs (will be placed in the phpdoc directory)
-` vendor/bin/phpdoc -d src/ -t phpdoc --template="responsive-twig"`
+`vendor/bin/phpdoc -d src/ -t phpdoc --template="responsive-twig"`
